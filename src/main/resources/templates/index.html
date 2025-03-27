@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Главная страница</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f7f7f7, #e3e3e3);
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      width: 450px;
+      margin: 50px auto;
+    }
+
+    h1 {
+      color: #007bff;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .menu a {
+      display: block;
+      padding: 14px;
+      font-size: 18px;
+      color: white;
+      background: #007bff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease-in-out, transform 0.2s;
+    }
+
+    .menu a:hover {
+      background: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .input-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      text-align: center;
+      width: 60%;
+    }
+
+    .btn {
+      padding: 10px 15px;
+      font-size: 16px;
+      color: white;
+      background: #28a745;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.2s;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 100px;
+    }
+
+    .btn:hover {
+      background: #218838;
+      transform: scale(1.05);
+    }
+
+    .btn-delete {
+      background: #dc3545;
+    }
+
+    .btn-delete:hover {
+      background: #c82333;
+      transform: scale(1.05);
+    }
+  </style>
+  <script>
+    function findUser() {
+      const userId = document.getElementById("userId").value;
+      if (userId) {
+        window.location.href = "/people/" + userId;
+      } else {
+        alert("Введите ID пользователя");
+      }
+    }
+
+    function updateUser() {
+      const updateId = document.getElementById("updateId").value;
+      if (updateId) {
+        window.location.href = "/people/" + updateId + "/edit";
+      } else {
+        alert("Введите ID пользователя для обновления");
+      }
+    }
+
+    function deleteUser() {
+      const deleteId = document.getElementById("deleteId").value;
+      if (deleteId) {
+        const form = document.getElementById("deleteForm");
+        form.action = "/people/" + deleteId;
+        form.submit();
+      } else {
+        alert("Введите ID пользователя для удаления");
+      }
+    }
+  </script>
+</head>
+<body>
+
+<div class="container">
+  <h1>Меню</h1>
+
+  <div class="menu">
+    <a href="/people">📋 Показать всех пользователей</a>
+    <a href="/people/new">➕ Добавить нового пользователя</a>
+  </div>
+
+  <div class="input-group">
+    <input type="number" id="userId" placeholder="Введите ID">
+    <button class="btn" onclick="findUser()">🔍 Найти</button>
+  </div>
+
+  <div class="input-group">
+    <input type="number" id="updateId" placeholder="Введите ID">
+    <button class="btn" onclick="updateUser()">♻️ Обновить</button>
+  </div>
+
+  <div class="input-group">
+    <input type="number" id="deleteId" placeholder="Введите ID">
+    <button class="btn btn-delete" onclick="deleteUser()">❌ Удалить</button>
+  </div>
+
+  <!-- Скрытая форма для удаления (POST + _method=delete) -->
+  <form id="deleteForm" method="post" style="display: none;">
+    <input type="hidden" name="_method" value="delete"/>
+  </form>
+
+</div>
+
+</body>
+</html>
