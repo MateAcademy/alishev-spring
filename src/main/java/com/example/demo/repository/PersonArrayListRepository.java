@@ -1,4 +1,4 @@
-package com.example.demo.dao;
+package com.example.demo.repository;
 
 import com.example.demo.models.Person;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class PeopleDAO {
+public class PersonArrayListRepository {
 
     private static int PEOPLE_COUNT;
 

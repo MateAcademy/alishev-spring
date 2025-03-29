@@ -2,20 +2,22 @@ server:
   port: 8086
 
 spring:
+  config:
+    import: "classpath:database.properties"
   application:
     name: demo
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/demo_db
-    username: postgres
-    password: postgres
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: ${DDL_AUTO}
+    show-sql: ${SHOW_SQL}
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: ${DIALECT}
 
 
 
