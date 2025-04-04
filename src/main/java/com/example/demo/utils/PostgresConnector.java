@@ -1,16 +1,28 @@
 package com.example.demo.utils;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Component
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostgresConnector {
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/demo_db";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "postgres";
+    @Value("${DB_URL}")
+    String URL;
 
-    public static Connection connect() {
+    @Value("${DB_USERNAME}")
+    String USER;
+
+    @Value("${DB_PASSWORD}")
+    String PASSWORD;
+
+    public Connection connect() {
         Connection connection = null;
         try {
             // Не обязательно с современных JDK, но можно явно загрузить драйвер

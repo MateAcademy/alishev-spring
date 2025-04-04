@@ -13,7 +13,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Person {
 
-    Integer id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long person_id;
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
@@ -28,7 +30,18 @@ public class Person {
     String email;
 
     @NotEmpty(message = "City should not be empty")
-    @Size(min = 2, max = 30, message = "City should be between 2 and 30 characters")
-    String city;
+    @Size(min = 10, max = 50, message = "City should be between 2 and 30 characters")
+    @Pattern(
+        regexp = "^\\p{Lu}\\p{Ll}+, \\p{Lu}\\p{Ll}+, \\d{6}$",
+        message = "Адрес должен быть в формате: 'Страна, Город, 123456'"
+    )
+    String address;
+
+    public Person(String name, Integer age, String email, String address) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.address = address;
+    }
 
 }

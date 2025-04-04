@@ -1,11 +1,17 @@
 server:
-  port: 8086
+  port: ${PORT}
 
 spring:
   config:
-    import: "classpath:database.properties"
+    import: classpath:database.properties
   application:
-    name: demo
+    name: ${PROJECT_NAME}
+  profiles:
+    active: ${PROFILES_DB}
+  sql:
+    init:
+      mode: ${MODE}
+      schema-locations: ${SCHEMA_LOCATIONS}
 
   datasource:
     url: ${DB_URL}

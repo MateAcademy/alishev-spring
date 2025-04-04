@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.PersonResponse;
 import com.example.demo.models.Person;
 import com.example.demo.service.PeopleService;
+import com.example.demo.utils.PersonValidator;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.List;
 public class PeopleController {
 
     final PeopleService peopleService;
+    final PersonValidator personValidator;
 
     @GetMapping
     public String index(Model model) {
@@ -43,6 +45,8 @@ public class PeopleController {
     @PostMapping
     public String create(@ModelAttribute @Valid Person person,
                          BindingResult bindingResult) {  // @RequestParam(required = false) String name
+        personValidator.validate(person, bindingResult);
+
         if (bindingResult.hasErrors()) {
             return "people/new-person";
         }
@@ -60,6 +64,8 @@ public class PeopleController {
     public String update(@ModelAttribute @Valid Person person,
                          BindingResult bindingResult,
                          @PathVariable Integer id) {
+        personValidator.validate(person, bindingResult);
+
         if (bindingResult.hasErrors()) {
             return "people/edit-person";
         }
@@ -70,6 +76,18 @@ public class PeopleController {
     @DeleteMapping("{id}")
     public String delete(@PathVariable Integer id) {
         peopleService.delete(id);
+        return "redirect:/people";
+    }
+
+    @GetMapping("insert1000People")
+    public String insert1000People() {
+        peopleService.insert1000People();
+        return "redirect:/people";
+    }
+
+    @GetMapping("butch_insert1000People")
+    public String butch_insert1000People() {
+        peopleService.butch_insert1000People();
         return "redirect:/people";
     }
 }

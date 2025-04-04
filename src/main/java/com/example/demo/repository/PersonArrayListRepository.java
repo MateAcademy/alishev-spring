@@ -1,16 +1,21 @@
 package com.example.demo.repository;
 
 import com.example.demo.models.Person;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 @Component
-public class PersonArrayListRepository {
+@Profile("arrayList")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class PersonArrayListRepository implements PersonRepository {
 
-    private static int PEOPLE_COUNT;
+    static Long PEOPLE_COUNT;
 
     private List<Person> people = new ArrayList<>() {{
         add(new Person(++PEOPLE_COUNT, "Alla", 10, "alla@gmail.com", "Kiev"));
@@ -18,34 +23,45 @@ public class PersonArrayListRepository {
         add(new Person(++PEOPLE_COUNT, "Bob", 30, "bob@gmail.com", "Lviv"));
     }};
 
-    public List<Person> getAllPeople() {
+
+    public List<Person> findAll() {
         return people;
     }
 
-    public Person show(int id) {
-        return people.stream().filter(person -> person.getId() == id).findFirst().orElse(null);
+    public Optional<Person> findById(long id) {
+        return people.stream().filter(person -> person.getPerson_id() == id).findFirst();
+    }
+
+    @Override
+    public Optional<Person> findByEmail(String email) {
+        return Optional.empty();
     }
 
     public void save(Person person) {
-        if (person.getId() == null) {
-            person.setId(++PEOPLE_COUNT);
+        if (person.getPerson_id() == null) {
+            person.setPerson_id(++PEOPLE_COUNT);
             people.add(person);
         }
     }
 
-    public void update(Integer id, Person updatedPerson) {
-        if (updatedPerson.getId() == null) {
+    public void update(Person updatedPerson) {
+        if (updatedPerson.getPerson_id() == null) {
             throw new RuntimeException("id is null");
-        } else if (Objects.equals(id, updatedPerson.getId())) {
-            Person personFromDB = this.show(updatedPerson.getId());
+        } else  {
+            Person personFromDB = this.findById(updatedPerson.getPerson_id()).get();
             personFromDB.setName(updatedPerson.getName());
             personFromDB.setAge(updatedPerson.getAge());
             personFromDB.setEmail(updatedPerson.getEmail());
-            personFromDB.setCity(updatedPerson.getCity());
+            personFromDB.setAddress(updatedPerson.getAddress());
         }
     }
 
-    public void delete(Integer id) {
-        people.removeIf(person -> person.getId() == id);
+    public void delete(long id) {
+        people.removeIf(person -> person.getPerson_id() == id);
+    }
+
+    @Override
+    public void butchSaveAll(List<Person> people) {
+        //todo: метод здесь не работает
     }
 }

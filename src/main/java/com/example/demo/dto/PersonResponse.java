@@ -12,21 +12,21 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PersonResponse {
 
-    Integer id;
+    Long person_id;
     String name;
     Integer age;
     String email;
-    String city;
+    String address;
 
-    public PersonResponse(Integer id, String name) {
-        this.id = id;
+    public PersonResponse(Long person_id, String name) {
+        this.person_id = person_id;
         this.name = name;
     }
 
-    public PersonResponse(String name, Integer age, String email, String city) {
-        this.name = name;
-        this.age = age;
-        this.email = email;
-        this.city = city;
-    }
+//    public PersonResponse(String name, Integer age, String email, String address) {
+//        this.name = name;
+//        this.age = age;
+//        this.email = email;
+//        this.address = address;
+//    }
 }

@@ -80,9 +80,9 @@
 
 <h1>Обновление пользователя</h1>
 
-<form th:action="@{'/people/' + ${person.id}}" th:object="${person}" th:method="patch">
+<form th:action="@{'/people/' + ${person.getPerson_id()}}" th:object="${person}" th:method="patch">
     <label>ID (нельзя изменить):</label>
-    <input type="text" th:field="*{id}" readonly/>
+    <input type="text" th:field="*{person_id}" readonly/>
 
     <label>Имя:</label>
     <input type="text" th:field="*{name}" required/>
@@ -96,9 +96,9 @@
     <input type="email" th:field="*{email}" required/>
     <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
 
-    <label>Город:</label>
-    <input type="text" th:field="*{city}" required/>
-    <div style="color: red" th:if="${#fields.hasErrors('city')}" th:errors="*{city}">City error</div>
+    <label>Адрес:</label>
+    <input type="text" th:field="*{address}" required/>
+    <div style="color: red" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Address error</div>
 
     <button type="submit" class="btn">💾 Сохранить</button>
 </form>
